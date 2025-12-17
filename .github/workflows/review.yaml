@@ -58,8 +58,8 @@ jobs:
         id: setup
         continue-on-error: true
         run: |
-          chomd +x ./github/validate.sh
-          chomd +x ./github/generate-config.sh
+          chmod +x ./github/validate.sh
+          chmod +x ./github/generate-config.sh
           ./github/validate.sh
         env:
           # GitHub Actions 内置环境变量
