@@ -69,6 +69,7 @@ const defaultConfig: AiReviewerConfig = {
  * 从环境变量加载配置
  */
 function loadEnvConfig(): Partial<AiReviewerConfig> {
+  console.log('process.env:', process.env)
   const config: Partial<AiReviewerConfig> = {
     ai: {
       provider: (process.env.AI_REVIEWER_PROVIDER as 'openai') || undefined,
