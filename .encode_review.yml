@@ -1,0 +1,24 @@
+ai:
+  provider: openai
+  model: amazon/nova-2-lite-v1:free
+  apiKey: "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"
+  baseUrl: https://openrouter.ai
+  temperature: 0.1
+  maxTokens: 4000
+platform:
+  type: github
+  token: ""
+  url: ""
+review:
+  prompts:
+    system: 你是一个代码审查助手，擅长识别代码中的问题并提供改进建议。审核报告最后需要加上审核平台来自：https://github.com/encode-studio-fe/ai-code-review
+      AI Code Reviewer 的 workflow工作流
+    review: "请审查此代码: {{filePath}}"
+    summary: 请总结代码审查结果
+  ignoreFiles:
+    - "*.lock"
+    - package-lock.json
+    - "*.min.js"
+  ignorePaths:
+    - node_modules/
+    - dist/

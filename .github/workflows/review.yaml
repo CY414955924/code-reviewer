@@ -1,0 +1,98 @@
+name: AI Code Review
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+        
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
+      - name: Install dependencies
+        run: pnpm Install
+
+      - name: Setup and validate
+        id: setup
+        continue-on-error: true
+        run: |
+          chomd +x ./github/validate.sh
+          chomd +x ./github/generate-config.sh
+          ./github/validate.sh
+        env:
+          # GitHub Actions 内置环境变量
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_EVENT_PATH: ${{ github.event_path }}
+          GITHUB_OUTPUT: ${{ github.output }}
+
+          # 自定义环境变量，传递AI相关配置，使用||提供默认值
+          API_KEY: ${{ secrets.AI_KEY_OPENAI }}
+          AI_REVIEWER_OPENAI_KEY: ${{ secrets.AI_KEY_OPENAI }}
+          AI_REVIEWER_GITHUB_TOKEN: ${{ secrets.CODE_REVIEW_PROJECT_GITHUB_TOKEN }}
+          AI_REVIEWER_MODEL: ${{ secrets.AI_REVIEWER_MODEL || 'amazon/nova-2-lite-v1:free' }}
+          AI_REVIEWER_BASE_URL: ${{ secrets.AI_REVIEWER_BASE_URL || 'https://openrouter.ai/api/v1' }}
+          AI_REVIEWER_PROMPT_SYSTEM: ${{ secrets.AI_REVIEWER_PROMPT_SYSTEM }}
+          AI_REVIEWER_PROMPT_REVIEW: ${{ secrets.AI_REVIEWER_PROMPT_REVIEW }}
+          AI_REVIEWER_PROMPT_SUMMARY: ${{ secrets.AI_REVIEWER_PROMPT_SUMMARY }}
+        
+      - name: Run AI Code Review
+        if: steps.setup.outputs.setup_valid == 'success'
+        continue-on-error: true
+        run: |
+          echo "开始代码审查..."
+          echo "PR编号：${{ steps.setup.outputs.pr_number }}"
+          echo "仓库: $GITHUB_REPOSITORY"
+
+          pnpm tsc src/cli.ts github-pr \
+            --owner ${{ github.repository_owner }} \
+            --repo ${{ github.event.repository.name }} \
+            --pr-id ${{ steps.setup.outputs.pr_number }}
+        env:
+          AI_REVIEWER_OPENAI_KEY: ${{ secrets.AI_KEY_OPENAI }}
+          AI_REVIEWER_MODEL: ${{ secrets.AI_REVIEWER_MODEL || 'amazon/nova-2-lite-v1:free' }}
+          AI_REVIEWER_BASE_URL: ${{ secrets.AI_REVIEWER_BASE_URL || 'https://openrouter.ai' }}
+          AI_REVIEWER_GITHUB_TOKEN: ${{ secrets.CODE_REVIEW_PROJECT_GITHUB_TOKEN }}
