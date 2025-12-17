@@ -6,7 +6,7 @@ import cli from './cli'
  */
 export function initCli(): void {
   if (!isNode) {
-    console.warn('CLI功能仅在Node.js环境中可用')
+    console.warn('CLI功能仅在Node.js环境中可用.')
     return
   }
 
