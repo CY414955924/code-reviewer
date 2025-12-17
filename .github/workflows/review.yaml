@@ -65,8 +65,8 @@ jobs:
           GITHUB_OUTPUT: ${{ github.output }}
 
           # 自定义环境变量
-          API_KEY: ${{ secrets.AI_KEY_OPENAI }}
-          AI_REVIEWER_OPENAI_KEY: ${{ secrets.AI_KEY_OPENAI }}
+          API_KEY: ${{ secrets.AI_REVIEWER_OPENAI_KEY }}
+          AI_REVIEWER_OPENAI_KEY: ${{ secrets.AI_REVIEWER_OPENAI_KEY }}
           AI_REVIEWER_GITHUB_TOKEN: ${{ secrets.CODE_REVIEW_PROJECT_GITHUB_TOKEN }}
           AI_REVIEWER_MODEL: ${{ secrets.AI_REVIEWER_MODEL || 'amazon/nova-2-lite-v1:free' }}
           AI_REVIEWER_BASE_URL: ${{ secrets.AI_REVIEWER_BASE_URL || 'https://openrouter.ai/api/v1' }}
@@ -87,7 +87,7 @@ jobs:
             --repo ${{ github.event.repository.name }} \
             --pr-id ${{ steps.setup.outputs.pr_number }}
         env:
-          AI_REVIEWER_OPENAI_KEY: ${{ secrets.secrets.AI_KEY_OPENAI }}
+          AI_REVIEWER_OPENAI_KEY: ${{ secrets.secrets.AI_REVIEWER_OPENAI_KEY }}
           AI_REVIEWER_MODEL: ${{ secrets.AI_REVIEWER_MODEL || 'amazon/nova-2-lite-v1:free' }}
           AI_REVIEWER_BASE_URL: ${{ secrets.AI_REVIEWER_BASE_URL || 'https://openrouter.ai/api/v1' }}
           AI_REVIEWER_GITHUB_TOKEN: ${{ secrets.CODE_REVIEW_PROJECT_GITHUB_TOKEN }}
