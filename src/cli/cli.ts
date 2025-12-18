@@ -31,6 +31,7 @@ cli.command('github-pr', '审查GitHub拉取请求')
         },
       })
 
+      console.log('config', config)
       const reviewer = new CodeReviewer({
         config,
         owner: options.owner,
