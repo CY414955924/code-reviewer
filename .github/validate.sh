@@ -142,6 +142,25 @@ fi
 if [ ${#ERRORS[@]} -eq 0 ]; then
   echo "所有验证通过"
   echo "setup_valid=true" >> $GITHUB_OUTPUT
+
+  # 🔴 将环境变量写入 GITHUB_ENV，使后续步骤可用
+  if [ -n "$AI_REVIEWER_OPENAI_KEY" ]; then
+    echo "AI_REVIEWER_OPENAI_KEY=$AI_REVIEWER_OPENAI_KEY" >> $GITHUB_ENV
+  fi
+  
+  if [ -n "$AI_REVIEWER_GITHUB_TOKEN" ]; then
+    echo "AI_REVIEWER_GITHUB_TOKEN=$AI_REVIEWER_GITHUB_TOKEN" >> $GITHUB_ENV
+  fi
+  
+  if [ -n "$AI_REVIEWER_MODEL" ]; then
+    echo "AI_REVIEWER_MODEL=$AI_REVIEWER_MODEL" >> $GITHUB_ENV
+  fi
+  
+  if [ -n "$AI_REVIEWER_BASE_URL" ]; then
+    echo "AI_REVIEWER_BASE_URL=$AI_REVIEWER_BASE_URL" >> $GITHUB_ENV
+  fi
+
+
 else
   echo "发现 ${#ERRORS[@]} 个错误"
   echo "setup_valid=false" >> $GITHUB_OUTPUT
