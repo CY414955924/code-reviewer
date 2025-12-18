@@ -61,7 +61,7 @@ fi
 
 # 验证GitHub Token
 echo "验证GitHub Token..."
-if [ -z "$CODE_REVIEW_PROJECT_GITHUB_TOKEN" ]; then
+if [ -z "$AI_REVIEWER_GITHUB_TOKEN" ]; then
   echo "::error::GitHub Token未设置"
   ERRORS+=("GitHub Token未设置")
 else
@@ -69,7 +69,7 @@ else
   echo "测试仓库访问权限..."
   repo_response=$(curl -s -w "%{http_code}" \
     -H "Accept: application/vnd.github+json" \
-    -H "Authorization: token $CODE_REVIEW_PROJECT_GITHUB_TOKEN" \
+    -H "Authorization: token $AI_REVIEWER_GITHUB_TOKEN" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
     "https://api.github.com/repos/$GITHUB_REPOSITORY")
   repo_status=${repo_response: -3}
@@ -78,7 +78,7 @@ else
   echo "测试Issues访问权限..."
   issues_response=$(curl -s -w "%{http_code}" \
     -H "Accept: application/vnd.github+json" \
-    -H "Authorization: token $CODE_REVIEW_PROJECT_GITHUB_TOKEN" \
+    -H "Authorization: token $AI_REVIEWER_GITHUB_TOKEN" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
     "https://api.github.com/repos/$GITHUB_REPOSITORY/issues")
   issues_status=${issues_response: -3}
@@ -121,7 +121,7 @@ else
   # 验证PR是否存在
   response=$(curl -s -w "%{http_code}" \
     -H "Accept: application/vnd.github+json" \
-    -H "Authorization: token $CODE_REVIEW_PROJECT_GITHUB_TOKEN" \
+    -H "Authorization: token $AI_REVIEWER_GITHUB_TOKEN" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
     "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
   status_code=${response: -3}
