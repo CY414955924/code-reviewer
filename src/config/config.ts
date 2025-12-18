@@ -69,7 +69,7 @@ const defaultConfig: AiReviewerConfig = {
  * 从环境变量加载配置
  */
 function loadEnvConfig(): Partial<AiReviewerConfig> {
-  console.log('process.env:', process.env)
+  //   console.log('process.env:', process.env)
   const config: Partial<AiReviewerConfig> = {
     ai: {
       provider: (process.env.AI_REVIEWER_PROVIDER as 'openai') || undefined,
@@ -203,6 +203,7 @@ function mergeConfig(
   }
 
   // 然后应用环境变量和CLI参数（保持原有优先级）
+  console.log('cliConfig', cliConfig)
   const configs = [envConfig, cliConfig]
   for (const config of configs) {
     if (!config)
@@ -285,6 +286,7 @@ export async function loadConfig(
  * 验证配置是否有效
  */
 export function validateConfig(config: AiReviewerConfig): boolean {
+  console.log('validateConfig-config', config)
   // 验证AI配置
   if (config.ai.provider === 'openai' && !config.ai.apiKey) {
     consola.error('OpenAI API 密钥未配置，请设置 AI_REVIEWER_OPENAI_KEY 环境变量或在配置文件中指定')
