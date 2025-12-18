@@ -21,6 +21,8 @@ export class LocalPlatform implements Platform {
   private commitSha?: string
 
   constructor(options: PlatformOptions) {
+    console.log('localPaltform初始化 options', options)
+
     if (!isNode) {
       consola.warn('本地平台审查功能仅在Node.js环境中可用')
     }
@@ -34,6 +36,8 @@ export class LocalPlatform implements Platform {
    */
   async getCodeDiffs(): Promise<CodeDiff[]> {
     try {
+      console.log('getCodeDiffs start ...')
+
       if (!isNode) {
         consola.error('本地平台仅在Node.js环境中支持获取代码差异')
         return []
@@ -57,6 +61,8 @@ export class LocalPlatform implements Platform {
       // 解析git输出获取修改的文件
       const files: { status: string, file: string }[] = []
 
+      consola.info('files', files)
+
       const lines = stdout.trim().split('\n')
       for (const line of lines) {
         // 修复正则表达式避免指数级回溯
@@ -71,6 +77,7 @@ export class LocalPlatform implements Platform {
       const diffs: CodeDiff[] = []
 
       for (const { status, file } of files) {
+        console.log('file', file)
         // 跳过删除的文件
         if (status === 'D') {
           continue
@@ -87,6 +94,7 @@ export class LocalPlatform implements Platform {
           }
 
           const { stdout: diffOutput } = await execAsync(diffCommand, { cwd: this.path })
+          console.log('diffOutput', diffOutput)
 
           // 获取文件内容
           const oldContent = ''

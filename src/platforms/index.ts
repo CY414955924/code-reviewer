@@ -12,6 +12,8 @@ export function createPlatform(
 ): Platform {
   consola.debug(`创建平台: ${config.type}`)
 
+  consola.debug(`平台配置: ${JSON.stringify(config)}`)
+
   switch (config.type) {
     case 'github':
       return new GitHubPlatform(config, options)

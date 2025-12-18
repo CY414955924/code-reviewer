@@ -1,7 +1,7 @@
 ai:
   provider: openai
   model: tngtech/tng-r1t-chimera:free
-  apiKey: ""
+  apiKey: "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"
   baseUrl: https://openrouter.ai
   temperature: 0.1
   maxTokens: 4000
