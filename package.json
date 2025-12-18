@@ -7,7 +7,9 @@
   "author": "",
   "license": "ISC",
   "keywords": [],
-  "main": "index.js",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" unbuild",
     "dev": "unbuild --stub",

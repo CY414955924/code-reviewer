@@ -122,6 +122,7 @@ export class GitHubPlatform implements Platform {
    */
   async submitReviewComment(filePath: string, line: number | undefined, comment: string): Promise<void> {
     try {
+      console.log("submitReviewComment start ...");
       // 获取提交SHA，用于添加评论
       const pullResponse = await fetch(
         `${this.baseUrl}/repos/${this.owner}/${this.repo}/pulls/${this.prId}`,
@@ -133,6 +134,7 @@ export class GitHubPlatform implements Platform {
           },
         },
       )
+      console.log("submitReviewComment pullResponse:", pullResponse);
 
       if (!pullResponse.ok) {
         const errorText = await pullResponse.text()

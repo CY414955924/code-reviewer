@@ -286,7 +286,6 @@ export async function loadConfig(
  * 验证配置是否有效
  */
 export function validateConfig(config: AiReviewerConfig): boolean {
-  console.log('validateConfig-config', config)
   // 验证AI配置
   if (config.ai.provider === 'openai' && !config.ai.apiKey) {
     consola.error('OpenAI API 密钥未配置，请设置 AI_REVIEWER_OPENAI_KEY 环境变量或在配置文件中指定')

@@ -32,6 +32,9 @@ export default antfu(
 
       // 允许console
       'no-console': 'off',
+
+      'style/quotes': 'off',
+      'style/semi': 'off',
     },
     ignores: [
       // 忽略YAML文件
