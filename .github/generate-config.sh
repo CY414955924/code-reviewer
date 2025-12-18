@@ -43,7 +43,7 @@ fi
 cat > "$OUTPUT_FILE" << EOF
 ai:
   provider: 'openai'
-  model: 'amazon/nova-2-lite-v1:free'
+  model: 'tngtech/tng-r1t-chimera:free'
   apiKey: '${AI_REVIEWER_OPENAI_KEY}'
   baseUrl: 'https://openrouter.ai'
   temperature: 0.1

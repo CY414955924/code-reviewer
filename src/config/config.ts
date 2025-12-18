@@ -41,7 +41,7 @@ export interface AiReviewerConfig {
 const defaultConfig: AiReviewerConfig = {
   ai: {
     provider: 'openai',
-    model: 'amazon/nova-2-lite-v1:free',
+    model: 'tngtech/tng-r1t-chimera:free',
     temperature: 0.1,
     maxTokens: 4000,
   },
@@ -73,7 +73,7 @@ function loadEnvConfig(): Partial<AiReviewerConfig> {
   const config: Partial<AiReviewerConfig> = {
     ai: {
       provider: (process.env.AI_REVIEWER_PROVIDER as 'openai') || undefined,
-      model: process.env.AI_REVIEWER_MODEL || 'amazon/nova-2-lite-v1:free',
+      model: process.env.AI_REVIEWER_MODEL || 'tngtech/tng-r1t-chimera:free',
       apiKey: process.env.AI_REVIEWER_OPENAI_KEY,
       baseUrl: process.env.AI_REVIEWER_BASE_URL,
       temperature: process.env.AI_REVIEWER_TEMPERATURE

@@ -36,7 +36,7 @@ function buildConfig() {
   return {
     ai: {
       provider: process.env.AI_REVIEWER_PROVIDER || 'openai',
-      model: process.env.AI_REVIEWER_MODEL || 'amazon/nova-2-lite-v1:free',
+      model: process.env.AI_REVIEWER_MODEL || 'tngtech/tng-r1t-chimera:free',
       apiKey: process.env.AI_REVIEWER_OPENAI_KEY || '',
       baseUrl: process.env.AI_REVIEWER_BASE_URL || 'https://openrouter.ai',
       temperature: Number.parseFloat(process.env.AI_REVIEWER_TEMPERATURE || 0.1),
