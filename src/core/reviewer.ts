@@ -90,7 +90,6 @@ export class CodeReviewer {
     try {
       // 获取代码差异
       const diffs = await this.platform.getCodeDiffs()
-      console.log("diffs", diffs);
       consola.info(`获取到 ${diffs.length} 个文件差异`)
 
       if (diffs.length === 0) {
