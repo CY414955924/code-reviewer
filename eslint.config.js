@@ -35,6 +35,17 @@ export default antfu(
 
       'style/quotes': 'off',
       'style/semi': 'off',
+      'style/indent': 'off',
+      'style/no-trailing-spaces': 'off',
+      'style/member-delimiter-style': 'off',
+      'style/block-spacing': 'off',
+      'style/object-curly-spacing': 'off',
+      'style/brace-style': 'off',
+      'style/padded-blocks': 'off',
+      'prefer-template': 'off',
+      'style/operator-linebreak': 'off',
+      'style/comma-dangle': 'off',
+      'style/no-multi-spaces': 'off',
     },
     ignores: [
       // 忽略YAML文件
